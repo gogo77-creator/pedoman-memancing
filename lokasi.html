@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Buka Aplikasi</title>
+    <title>Buka Lokasi</title>
     <script type="text/javascript">
         window.onload = function() {
-            // URL aplikasi anda di Google Play Store
-            var playStoreUrl = "https://play.google.com/store/apps/details?id=com.pedomanmemancing";
+            // Dapatkan nilai koordinat lat & lng dari URL semasa
+            var urlParams = new URLSearchParams(window.location.search);
+            var lat = urlParams.get('lat');
+            var lng = urlParams.get('lng');
             
-            // Redirect pengguna ke Play Store apabila browser membuka pautan ini
-            window.location.replace(playStoreUrl);
+            // Jika tiada koordinat (contoh: link rosak), buka Play Store biasa
+            if (!lat || !lng) {
+                window.location.replace("https://play.google.com/store/apps/details?id=com.pedomanmemancing");
+                return;
+            }
+
+            // Bina pautan 'intent' khas untuk Android Chrome
+            var intentUrl = "intent://gogo77-creator.github.io/pedoman-memancing/lokasi.html?lat=" + lat + "&lng=" + lng + "#Intent;scheme=https;package=com.pedomanmemancing;end;";
+            
+            // Cuba buka aplikasi. Jika aplikasi tiada, Chrome secara automatik 
+            // akan redirect pengguna ke halaman Play Store com.pedomanmemancing
+            window.location.replace(intentUrl);
         };
     </script>
 </head>
 <body>
-    <p>Membuka Google Play Store...</p>
+    <p>Sedang membuka lokasi di aplikasi Pedoman Memancing...</p>
 </body>
 </html>
